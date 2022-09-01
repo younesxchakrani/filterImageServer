@@ -1,48 +1,26 @@
-# Udagram Image Filtering Microservice
+# Contenu :
 
-Udagram is a simple cloud application developed alongside the Udacity Cloud Engineering Nanodegree. It allows users to register and log into a web client, post photos to the feed, and process photos using an image filtering microservice.
+-dossier "deployment_screenshots" : screenshot du bonne fonctionnement d'instances.
+-fichier "server-image-filtering collection" : json d'une collection postman de requette de test.
 
-The project is split into three parts:
-1. [The Simple Frontend](https://github.com/udacity/cloud-developer/tree/master/course-02/exercises/udacity-c2-frontend)
-A basic Ionic client web application which consumes the RestAPI Backend. [Covered in the course]
-2. [The RestAPI Backend](https://github.com/udacity/cloud-developer/tree/master/course-02/exercises/udacity-c2-restapi), a Node-Express server which can be deployed to a cloud service. [Covered in the course]
-3. [The Image Filtering Microservice](https://github.com/udacity/cloud-developer/tree/master/course-02/project/image-filter-starter-code), the final project for the course. It is a Node-Express application which runs a simple script to process images. [Your assignment]
+Url Ec2 : image-filter-server-dev.us-east-1.elasticbeanstalk.com
 
-## Tasks
+## Note : 
 
-### Setup Node Environment
+-Les images depuis wikipédia me cause cette erreur : "Error: Could not find MIME for Buffer <null>". (Le package Jimp a un issue avec la fonction read.)
+meme si je remplace : const photo = await Jimp.read(inputURL);
+par : const photo = await axios({
+        method: "get",
+        url: inputURL,
+        responseType: "arraybuffer",
+      }).then(function ({ data: imageBuffer }) {
+        return Jimp.read(imageBuffer);
+      });
+      
+-Je teste donc avec cette image(pas de wikipédia) comme indiqué dans la collection postman : 
+  https://images.pexels.com/photos/4629485/pexels-photo-4629485.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260
+  ou 
+  https://assets.imgix.net/unsplash/bridge.jpg
+  ou encore : https://assets.imgix.net/unsplash/turntable.jpg
 
-You'll need to create a new node server. Open a new terminal within the project directory and run:
-
-1. Initialize a new project: `npm i`
-2. run the development server with `npm run dev`
-
-### Create a new endpoint in the server.ts file
-
-The starter code has a task for you to complete an endpoint in `./src/server.ts` which uses query parameter to download an image from a public URL, filter the image, and return the result.
-
-We've included a few helper functions to handle some of these concepts and we're importing it for you at the top of the `./src/server.ts`  file.
-
-```typescript
-import {filterImageFromURL, deleteLocalFiles} from './util/util';
-```
-
-### Deploying your system
-
-Follow the process described in the course to `eb init` a new application and `eb create` a new environment to deploy your image-filter service! Don't forget you can use `eb deploy` to push changes.
-
-## Stand Out (Optional)
-
-### Refactor the course RESTapi
-
-If you're feeling up to it, refactor the course RESTapi to make a request to your newly provisioned image server.
-
-### Authentication
-
-Prevent requests without valid authentication headers.
-> !!NOTE if you choose to submit this, make sure to add the token to the postman collection and export the postman collection file to your submission so we can review!
-
-### Custom Domain Name
-
-Add your own domain name and have it point to the running services (try adding a subdomain name to point to the processing server)
-> !NOTE: Domain names are not included in AWS’ free tier and will incur a cost.
+un url de test : http://image-filter-server-dev.us-east-1.elasticbeanstalk.com/filteredimage?image_url=https://images.pexels.com/photos/4629485/pexels-photo-4629485.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260
