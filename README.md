@@ -19,8 +19,10 @@ par : const photo = await axios({
       
 -Je teste donc avec cette image(pas de wikipédia) comme indiqué dans la collection postman : 
   https://images.pexels.com/photos/4629485/pexels-photo-4629485.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260
+        
 ou 
 https://assets.imgix.net/unsplash/bridge.jpg
+        
 ou encore : https://assets.imgix.net/unsplash/turntable.jpg
 
 un url de test : http://image-filter-server-dev.us-east-1.elasticbeanstalk.com/filteredimage?image_url=https://images.pexels.com/photos/4629485/pexels-photo-4629485.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260
